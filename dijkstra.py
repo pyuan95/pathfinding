@@ -1,3 +1,6 @@
+import time
+import sys
+
 class Node:
     def __init__(self, x, y, parent = None, G = 0):
         self.x = x
@@ -90,6 +93,8 @@ def print_path(end, map):
 def find_path(m, par, end, open_list, closed_list):
     if par.equals(end):
         print("Length of shortest path: ", par.G)
+        print("Nodes in open list: ", len(open_list))
+        print("Nodes in closed list: ", len(closed_list))
         return par
 
     remove_node_from_list(par, open_list)
@@ -108,6 +113,8 @@ def find_path(m, par, end, open_list, closed_list):
 
     if len(open_list) == 0:
         print("No Path!")
+        print("Nodes in open list: ", len(open_list))
+        print("Nodes in closed list: ", len(closed_list))
         return None
 
     par = min_gcost(open_list)
@@ -115,12 +122,16 @@ def find_path(m, par, end, open_list, closed_list):
 
 
 def main():
+    sys.setrecursionlimit(1000000)
     m = get_map()
     start = get_start_loc(m)
     end = get_end_loc(m)
     start_node = Node(start[0], start[1])
     end_node = Node(end[0], end[1])
+    start_time = time.time()
     end_node = find_path(m, start_node, end_node, [start_node], [])
+    end_time = time.time()
+    print("Time elapsed: ", end_time - start_time)
     if end_node:
         print("\nPath:\n")
         print_path(end_node, m)

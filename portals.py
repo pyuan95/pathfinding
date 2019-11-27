@@ -35,6 +35,15 @@ def get_other_portal(x, y, portals):
             if c == ch and not (x == i and y == j):
                 return i, j
 
+def print_path(end, map):
+    end = end.parent
+    while end.parent is not None:
+        x, y = end.x, end.y
+        end = end.parent
+        map[x][y] = "x"
+    [print("".join(row)) for row in map]
+
+
 class Node:
 
     def __init__(self, x, y, parent = None, G = 0):
@@ -103,9 +112,10 @@ def find_path(portals):
 
         n = minGCost(open)
         par = n # set the parent to the node with the smallest G in the open list
-        print("Parent x and y: ", par.x, ", ", par.y)
+        # print("Parent x and y: ", par.x, ", ", par.y)
         if par.equals(end): # if the parent is the end node, end
             print(par.G)
+            print_path(par, map)
             break
 
 list_of_maps = []
